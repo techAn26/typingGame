@@ -1,4 +1,4 @@
-import { Dispatch, memo, SetStateAction } from 'react'
+import { Dispatch, memo, ReactNode, SetStateAction } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 type CustomSelectStrType<T extends string> = {
@@ -27,4 +27,4 @@ export const CustomSelectStr = memo(<T extends string>({ label, value, setValue,
       </FormControl>
     </Box>
   )
-})
+}) as <T extends string>(props: CustomSelectStrType<T>) => ReactNode

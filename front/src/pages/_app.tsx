@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import normalize from 'normalize.css'
+import { RecoilRoot } from 'recoil'
 
 const globalStyle = css`
   ${normalize}
@@ -58,13 +59,13 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [setIsMounted])
 
   return (
-    <div>
+    <RecoilRoot>
       <Global styles={globalStyle} />
       {isMounted && (
         <Template>
           <Component {...pageProps} />
         </Template>
       )}
-    </div>
+    </RecoilRoot>
   )
 }

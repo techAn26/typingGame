@@ -1,40 +1,66 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { datasetIdState } from '../../../state/datasetIdAtom'
+import { SampleData, SampleDataType } from '../../game/SampleData'
+import { gameStateAtom } from '../../../state/gameStateAtom'
+import { GameLevelType, levelState, GameLevel } from '../../../state/levelAtom'
 
-const GameLevel = ['easy', 'normal', 'hard'] as const
-type GameLevelType = (typeof GameLevel)[number]
-
-type DatasetType = {
-  id: string
-  name: string
-  level: GameLevelType
-}
-const SampleDataset: DatasetType[] = [
-  {
-    id: '1',
-    name: '魚大図鑑',
-    level: 'easy',
-  },
-  {
-    id: '2',
-    name: 'プログラミング専門用語',
-    level: 'normal',
-  },
-  {
-    id: '3',
-    name: '歴史上の出来事集',
-    level: 'hard',
-  },
-]
+export type DatasetType = Pick<SampleDataType, 'id' | 'name' | 'level'>
+// ToDO 後に削除 (fetchでデータを取得するようにする)
+const SampleDataset: DatasetType[] = SampleData.map((d) => ({
+  id: d.id,
+  name: d.name,
+  level: d.level,
+}))
 
 export const useStartPages = () => {
-  const [level, setLevel] = useState<GameLevelType>('normal')
-  const [dataset, setDataset] = useState<DatasetType>(SampleDataset[0])
+  const [level, setLevel] = useRecoilState(levelState)
   const datasets = SampleDataset
   const datasetOptions = datasets.filter((d) => d.level === level)
 
+  // 初期値とデータセットの状態管理を修正
+  const [dataset, setDataset] = useState<DatasetType>(() => {
+    const initialOptions = datasets.filter((d) => d.level === level)
+    return initialOptions[0]
+  })
+
+  const setDatasetId = useSetRecoilState(datasetIdState)
+
+  // レベル変更時の処理を修正
+  const handleLevelChange = (newLevel: GameLevelType) => {
+    const newOptions = datasets.filter((d) => d.level === newLevel)
+    if (newOptions.length > 0) {
+      setDataset(newOptions[0])
+    }
+    setLevel(newLevel)
+  }
+
+  useEffect(() => {
+    setDatasetId(dataset.id)
+  }, [dataset, setDatasetId])
+
+  // キー入力
+  const [gameStatus, setGameStatus] = useRecoilState(gameStateAtom)
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        setGameStatus('gaming')
+      }
+    },
+    [setGameStatus],
+  )
+
+  useEffect(() => {
+    if (gameStatus === 'start') {
+      window.addEventListener('keydown', handleKeyDown)
+    } else {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [gameStatus, handleKeyDown])
+
   return {
     level,
-    setLevel,
+    setLevel: handleLevelChange, // setLevelを新しい関数に置き換え
     levelOptions: GameLevel,
     dataset,
     setDataset,

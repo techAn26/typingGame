@@ -1,12 +1,10 @@
-import { useState } from 'react'
-
-export type GameStatus = 'start' | 'gaming' | 'end'
+import { useRecoilValue } from 'recoil'
+import { gameStateAtom } from '../state/gameStateAtom'
 
 export const useHomePages = () => {
-  const [gameStatus, setGameStatus] = useState<GameStatus>('start')
+  const gameStatus = useRecoilValue(gameStateAtom)
 
   return {
     gameStatus,
-    setGameStatus,
   }
 }

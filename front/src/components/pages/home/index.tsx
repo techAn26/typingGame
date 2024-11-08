@@ -1,8 +1,9 @@
 import { css } from '@emotion/react'
-import { GameStatus, useHomePages } from './hook/useHomePages'
+import { useHomePages } from './hook/useHomePages'
 import { Start } from './parts/start'
-import { Gaming } from './parts/game'
+import { TypingGame } from './parts/game'
 import { End } from './parts/end'
+import { GameStatus } from './state/gameStateAtom'
 
 export const Home = () => {
   const { gameStatus } = useHomePages()
@@ -18,7 +19,7 @@ const MainComponents = ({ status }: { status: GameStatus }) => {
     case 'start':
       return <Start />
     case 'gaming':
-      return <Gaming />
+      return <TypingGame timeLeftDefault={10} />
     case 'end':
       return <End />
   }
