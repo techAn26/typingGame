@@ -4,7 +4,6 @@ import { faKeyboard } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 import { useSetRecoilState } from 'recoil'
 import { gameStateAtom } from '../../pages/home/state/gameStateAtom'
-
 type Props = {
   className?: string
 }
@@ -25,9 +24,11 @@ export const Header = ({ className }: Props) => {
         <nav css={styles.nav}>
           <ul css={styles.menu}>
             <li css={styles.menuItem}>
-              <span css={styles.icon}>📚</span>
-              問題一覧
-              <span css={styles.badge}>12</span>
+              <Link href='/dataset'>
+                <span css={styles.icon}>📚</span>
+                問題一覧
+                <span css={styles.badge}>12</span>
+              </Link>
             </li>
             <li css={styles.menuItem}>
               <span css={styles.icon}>👤</span>

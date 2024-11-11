@@ -1,10 +1,10 @@
-import { Dispatch, memo, ReactNode, SetStateAction } from 'react'
+import { memo, ReactNode } from 'react'
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 
 type CustomSelectStrType<T extends string> = {
   label: string
   value: T
-  setValue: Dispatch<SetStateAction<T>>
+  setValue: (value: T) => void
   options: T[]
 }
 

@@ -7,7 +7,7 @@ import { useSetRecoilState } from 'recoil'
 import { CustomCard } from '../../../../parts/card/CustomCard'
 
 export const Start = () => {
-  const { level, setLevel, levelOptions, dataset, setDataset, datasetOptions } = useStartPages()
+  const { level, setLevel, options, dataset, setDataset, datasetOptions } = useStartPages()
   const setGameStatus = useSetRecoilState(gameStateAtom)
 
   return (
@@ -16,12 +16,7 @@ export const Start = () => {
         <h1 css={styles.title}>Let's Typing!</h1>
         <div css={styles.gameConfig}>
           <div css={styles.configItem}>
-            <CustomSelectStr
-              label={'難易度'}
-              value={level}
-              setValue={(value) => setLevel(value as 'easy' | 'normal' | 'hard')}
-              options={[...levelOptions]}
-            />
+            <CustomSelectStr label={'難易度'} value={level} setValue={setLevel} options={[...options]} />
             <p css={styles.description}>タイピングの速度と難易度を選択してください</p>
           </div>
           <div css={styles.configItem}>

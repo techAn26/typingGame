@@ -1,4 +1,4 @@
-import { GameLevelType } from '../../state/levelAtom'
+import { GameLevelType } from '../../../common/type/levelAtom'
 
 export type SampleDataType = {
   id: string

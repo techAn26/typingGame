@@ -3,7 +3,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil'
 import { datasetIdState } from '../../../state/datasetIdAtom'
 import { SampleData, SampleDataType } from '../../game/SampleData'
 import { gameStateAtom } from '../../../state/gameStateAtom'
-import { GameLevelType, levelState, GameLevel } from '../../../state/levelAtom'
+import { GameLevelType, levelState, GameLevel } from '../../../../common/type/levelAtom'
 
 export type DatasetType = Pick<SampleDataType, 'id' | 'name' | 'level'>
 // ToDO 後に削除 (fetchでデータを取得するようにする)
@@ -61,7 +61,7 @@ export const useStartPages = () => {
   return {
     level,
     setLevel: handleLevelChange, // setLevelを新しい関数に置き換え
-    levelOptions: GameLevel,
+    options: GameLevel,
     dataset,
     setDataset,
     datasetOptions,
